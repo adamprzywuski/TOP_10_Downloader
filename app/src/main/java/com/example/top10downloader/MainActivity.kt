@@ -3,7 +3,17 @@ package com.example.top10downloader
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+
 import android.util.Log
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
+import java.nio.Buffer
+
 
 class MainActivity : AppCompatActivity() {
     private val TAG="Mainactivity"
@@ -27,11 +37,37 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG,"OnPostExcectuive parameter is $result")
             }
 
-            override fun doInBackground(vararg params: String?): String {
-                Log.d(TAG,"doInBackground: starts with ${params[0]}")
-                return "DoInBackground completed"
+            override fun doInBackground(vararg url: String?): String {
+                Log.d(TAG,"doInBackground: starts with ${url[0]}")
+                val rssFeed=MainActivity.downloadXML(url[0])
+                if(rssFeed.isEmpty())
+                {
+                    Log.e(TAG,"doInBackground:Error downloading")
+                }
+                return rssFeed
             }
 
         }
+    }
+    private fun downloadXML(urlPath:String):String{
+        val xmlResult=StringBuffer()
+
+        try {
+            val url= URL(urlPath)
+            val connection: HttpURLConnection =url.openConnection() as HttpURLConnection
+            val response=connection.responseCode
+            Log.d(TAG,"The response code was $response")
+
+            val inputStream=connection.inputStream
+            val inputStreamReader=InputStreamReader(inputStream)
+            val reader=BufferedReader(inputStreamReader)
+        }catch (e:MalformedURLException){
+            Log.e(TAG,"downloadXML: Invalid URL ${e.message}")
+        }catch(e:IOException){
+            Log.e(TAG,"downloadXML:IO Exception reading data: ${e.message}")
+        }catch(e:Exception){
+            Log.e(TAG,"downloadXML:Unknown error: ${e.message}")
+        }
+        return "Eror"
     }
 }
