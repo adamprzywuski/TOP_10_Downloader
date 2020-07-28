@@ -3,6 +3,8 @@ package com.example.top10downloader
 import android.util.Log
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserFactory
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ParseApplications {
     private val TAG="ParseApplications"
@@ -21,12 +23,12 @@ class ParseApplications {
             xpp.setInput(xmlData.reader())
             var evenType=xpp.eventType
             var currentRecord=FeedEntry()
-            while(evenType!= XmlPullParser.END_DOCUMENT){
-                val tagName=xpp.name.toLowerCase() //TODO: we should use the safe call operator?
+            while(evenType!= XmlPullParser.END_DOCUMENT) {
+                val tagName=xpp.name?.toLowerCase(Locale.ROOT)
                 when(evenType)
                 {
                     XmlPullParser.START_TAG ->{
-                        Log.d(TAG,"parse: Starting tag for "+tagName)
+                        Log.d(TAG, "parse: Starting tag for $tagName")
                         if(tagName=="entry")
                         {
                             inEntry=true
@@ -35,7 +37,7 @@ class ParseApplications {
                     }
                     XmlPullParser.TEXT-> textValue=xpp.text
                     XmlPullParser.END_TAG-> {
-                        Log.d(TAG,"parse: Ending tag for "+ tagName)
+                        Log.d(TAG, "parse: Ending tag for $tagName")
                         if(inEntry){
                             when(tagName)
                             {
@@ -48,7 +50,7 @@ class ParseApplications {
                                 }
                                 "name"->currentRecord.name=textValue
                                 "artist"->currentRecord.artist=textValue
-                                "releaseDate"->currentRecord.releaseDate=textValue
+                                "releasedate"->currentRecord.releaseDate=textValue
                                 "summary"->currentRecord.summary=textValue
                                 "image"->currentRecord.imageURL=textValue
 
@@ -62,6 +64,7 @@ class ParseApplications {
             {
                 Log.d(TAG,"**********************")
                 Log.d(TAG,app.toString())
+
 
             }
         }catch (e:Exception)

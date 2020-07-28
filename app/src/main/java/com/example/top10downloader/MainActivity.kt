@@ -17,10 +17,10 @@ class FeedEntry
 
     override fun toString(): String {
         return """""
-            name=$name
-            artist=$artist
-            releaseDate=$releaseDate
-            imageURL=$imageURL
+            name= $name
+            artist= $artist
+            releaseDate= $releaseDate
+            imageURL= $imageURL
             """.trimIndent()
     }
 }
