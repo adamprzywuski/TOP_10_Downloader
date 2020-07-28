@@ -22,11 +22,52 @@ class ParseApplications {
             var evenType=xpp.eventType
             var currentRecord=FeedEntry()
             while(evenType!= XmlPullParser.END_DOCUMENT){
+                val tagName=xpp.name.toLowerCase() //TODO: we should use the safe call operator?
+                when(evenType)
+                {
+                    XmlPullParser.START_TAG ->{
+                        Log.d(TAG,"parse: Starting tag for "+tagName)
+                        if(tagName=="entry")
+                        {
+                            inEntry=true
+                        }
+
+                    }
+                    XmlPullParser.TEXT-> textValue=xpp.text
+                    XmlPullParser.END_TAG-> {
+                        Log.d(TAG,"parse: Ending tag for "+ tagName)
+                        if(inEntry){
+                            when(tagName)
+                            {
+                                "entry"-> {
+                                    applications.add(currentRecord)
+
+                                    inEntry = false
+                                    currentRecord = FeedEntry()
+
+                                }
+                                "name"->currentRecord.name=textValue
+                                "artist"->currentRecord.artist=textValue
+                                "releaseDate"->currentRecord.releaseDate=textValue
+                                "summary"->currentRecord.summary=textValue
+                                "image"->currentRecord.imageURL=textValue
+
+                            }
+                        }
+                    }
+                }
+        evenType=xpp.next()
+            }
+            for (app in applications)
+            {
+                Log.d(TAG,"**********************")
+                Log.d(TAG,app.toString())
 
             }
-
         }catch (e:Exception)
         {e.printStackTrace()
         status=false}
+        return status
     }
+
 }
