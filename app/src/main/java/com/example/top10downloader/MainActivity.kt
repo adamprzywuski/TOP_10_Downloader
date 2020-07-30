@@ -9,7 +9,9 @@ import android.util.Log
 import android.widget.AbsListView
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import kotlinx.android.synthetic.main.activity_main.*
 import java.net.URL
+import kotlin.properties.Delegates
 
 class FeedEntry
 {
@@ -20,7 +22,7 @@ class FeedEntry
     var imageURL:String=""
 
     override fun toString(): String {
-        return """""
+        return """"
             name= $name
             artist= $artist
             releaseDate= $releaseDate
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         Log.d(TAG, "OnCreate called")
 
-        val DownloadData = DownloadData()
+        val DownloadData = DownloadData(this,xmlListView)
         DownloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml")
         Log.d(TAG, "onCreate:Done")
     }
@@ -48,7 +50,14 @@ class MainActivity : AppCompatActivity() {
         private class DownloadData(context: Context,listView: ListView) : AsyncTask<String, Void, String>() {
             private val TAG = "DownloadData"
 
-            
+            var propContext:Context by Delegates.notNull()
+            var propListView:ListView by Delegates.notNull()
+
+            init {
+                propContext=context
+                propListView=listView
+            }
+
 
             override fun onPostExecute(result: String) {
                 super.onPostExecute(result)
@@ -56,7 +65,8 @@ class MainActivity : AppCompatActivity() {
                 val parseApplications=ParseApplications()
                 parseApplications.parse(result)
 
-                val arrayAdapter= ArrayAdapter<FeedEntry>()
+                val arrayAdapter= ArrayAdapter<FeedEntry>(propContext,R.layout.list_view,parseApplications.applications)
+                propListView.adapter=arrayAdapter
 
 
             }
