@@ -29,12 +29,17 @@ class FeedEntry
             imageURL= $imageURL
             """.trimIndent()
     }
+
+
 }
 
 
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "Mainactivity"
+
+    private val downloadData by lazy{DownloadData(this,xmlListView)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
