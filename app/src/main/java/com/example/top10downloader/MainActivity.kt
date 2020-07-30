@@ -1,10 +1,14 @@
 package com.example.top10downloader
 
+import android.content.Context
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.util.Log
+import android.widget.AbsListView
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import java.net.URL
 
 class FeedEntry
@@ -41,13 +45,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private class DownloadData : AsyncTask<String, Void, String>() {
+        private class DownloadData(context: Context,listView: ListView) : AsyncTask<String, Void, String>() {
             private val TAG = "DownloadData"
+
+            
+
             override fun onPostExecute(result: String) {
                 super.onPostExecute(result)
                 //Log.d(TAG, "OnPostExcectuive parameter is $result")
                 val parseApplications=ParseApplications()
                 parseApplications.parse(result)
+
+                val arrayAdapter= ArrayAdapter<FeedEntry>()
+
 
             }
 
