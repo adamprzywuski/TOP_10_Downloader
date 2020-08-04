@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "OnCreate called")
 
         val DownloadData = DownloadData(this,xmlListView)
-        DownloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=10/xml")
+        DownloadData.execute("http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=25 /xml")
         Log.d(TAG, "onCreate:Done")
     }
 
