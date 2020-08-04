@@ -70,9 +70,11 @@ class MainActivity : AppCompatActivity() {
                 val parseApplications=ParseApplications()
                 parseApplications.parse(result)
 
-                val arrayAdapter= ArrayAdapter<FeedEntry>(propContext,R.layout.list_view,parseApplications.applications)
-                propListView.adapter=arrayAdapter
+               // val arrayAdapter= ArrayAdapter<FeedEntry>(propContext,R.layout.list_view,parseApplications.applications)
+               // propListView.adapter=arrayAdapter
 
+                val feedAdapter=FeedAdapter(propContext,R.layout.list_record,parseApplications.applications)
+                propListView.adapter=feedAdapter
 
             }
 
