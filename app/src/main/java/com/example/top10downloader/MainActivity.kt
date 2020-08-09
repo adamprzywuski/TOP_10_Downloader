@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.util.Log
-import android.widget.AbsListView
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import kotlinx.android.synthetic.main.activity_main.*
 import java.net.URL
@@ -66,12 +64,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPostExecute(result: String) {
                 super.onPostExecute(result)
-                //Log.d(TAG, "OnPostExcectuive parameter is $result")
+
                 val parseApplications=ParseApplications()
                 parseApplications.parse(result)
 
-               // val arrayAdapter= ArrayAdapter<FeedEntry>(propContext,R.layout.list_view,parseApplications.applications)
-               // propListView.adapter=arrayAdapter
 
                 val feedAdapter=FeedAdapter(propContext,R.layout.list_record,parseApplications.applications)
                 propListView.adapter=feedAdapter
