@@ -8,6 +8,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 
+
+class ViewHolder(v:View)
+{
+    val tvName:TextView=v.findViewById(R.id.tvName)
+    val tvArtist:TextView=v.findViewById(R.id.tvArtist)
+    val tvSummary:TextView=v.findViewById(R.id.tvSummary)
+}
+
+
 class FeedAdapter(context: Context, private val resource:Int, private val applications:List<FeedEntry>)
     : ArrayAdapter<FeedEntry>(context,resource) {
 
@@ -19,26 +28,32 @@ class FeedAdapter(context: Context, private val resource:Int, private val applic
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-
+        val viewHolder:ViewHolder
         Log.d(TAG,"getView() called")
 
         val view:View
-        view = if(convertView==null) {
+        if(convertView==null) {
             Log.d(TAG,"getView called with null convertView")
-            inflater.inflate(resource, parent, false)
+            view = inflater.inflate(resource, parent, false)
+            viewHolder=ViewHolder(view)
+            view.tag=viewHolder
+
         } else { Log.d(TAG,"GetView provide with null convertView ")
-            convertView
+            view = convertView
+            viewHolder=view.tag as ViewHolder
 
         }
-        val tvName: TextView =view.findViewById(R.id.tvName)
-        val tvArtist: TextView =view.findViewById(R.id.tvArtist)
-        val tvSummary: TextView =view.findViewById(R.id.tvSummary)
+      //  val tvName: TextView =view.findViewById(R.id.tvName)
+      //  val tvArtist: TextView =view.findViewById(R.id.tvArtist)
+     //   val tvSummary: TextView =view.findViewById(R.id.tvSummary)
+
 
         val curreentApp=applications[position]
 
-        tvName.text=((position+1).toString()+". "+curreentApp.name)
-        tvArtist.text=curreentApp.artist
-        tvSummary.text=curreentApp.summary
+            viewHolder.tvName.text=((position+1).toString()+". "+curreentApp.name)
+            viewHolder.tvArtist.text=curreentApp.artist
+
+        viewHolder.tvSummary.text=curreentApp.summary
 
         return view
     }
