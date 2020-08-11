@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val feedUrl:String
 
-        when(item?.itemId){
+        when(item.itemId){
             R.id.mnuFree->
                 feedUrl="http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=200/xml"
             R.id.mnuPaid->
